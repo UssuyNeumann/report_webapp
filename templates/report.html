@@ -1,0 +1,11 @@
+{% extends 'template.html' %}
+{% block conteudo %}
+<ul>
+    {% for relatorio in relatorios %}       
+    <li>{{ relatorio.area }}</li>
+        <ul>
+            <li>{{ relatorio.nome }}</li>
+        </ul>
+    {% endfor %}
+</ul>
+{% endblock %}
