@@ -1,7 +1,8 @@
 {% extends 'template.html' %}
 {% block conteudo %} 
-      <form method="post" action="/autenticar">
-        <fieldset>
+      <form method="post" action="{{ url_for('autenticar') }}">
+        <!-- <input type="hidden" name="proxima" value="{{ proxima }}"> -->
+        <input type="hidden" name="proxima" value="{{ request.args.get('proxima', 'novo') }}">
           <div class="form-group">
             <label for="usuario">Usuário</label>
             <input type="text" id="usuario" name="usuario" class="form-control">
@@ -11,6 +12,5 @@
             <input type="password" id="senha" name="senha" class="form-control">
           </div>
           <button type="submit" class="btn btn-primary btn-salvar">Salvar</button>
-        </fieldset>
       </form>
 {% endblock %}
