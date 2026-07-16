@@ -13,6 +13,19 @@ relatorio2 = Report('Relatório da Galactica', 'Battlestar Galactica', 'nave de 
 relatorio3 = Report('Relatório da USS Enterprise', ' Star Trek', 'nave de exploração do modelo Constitution')
 lista_relatorios = [relatorio1, relatorio2, relatorio3]   
 
+class Usuario:
+    def __init__(self, nome, email, senha):
+        self.nome = nome
+        self.email = email
+        self.senha = senha
+
+usuario1 = Usuario('Han Solo','han@rebeldes.org', 'solo')
+usuario2 = Usuario('Spock','spock@enterprise.org', 'spock')
+usuario3 = Usuario('William Adama','adama@galatica.org', 'adama')
+
+usuarios = {usuario1.email: usuario1, usuario2.email: usuario2, usuario3.email: usuario3}   
+
+
 app = Flask(__name__)
 app.secret_key = 'secreto' #chave_secreta_para_sessao
 
@@ -44,14 +57,17 @@ def login():
 def autenticar():
     usuario = request.form['usuario']
     senha = request.form['senha']
-    if senha == 'alohomora':
-        session['usuario_logado'] = usuario
-        flash(session['usuario_logado'] + ' logado com sucesso!')
-        proxima_pagina = request.form['proxima']
-        return redirect(proxima_pagina)
+    if request.form['usuario'] in usuarios:
+        usuario = usuarios[request.form['usuario']]
+        if request.form['senha'] == usuario.senha:
+            session['usuario_logado'] = usuario.nome
+            flash(usuario.nome + ' logado com sucesso!')
+            proxima_pagina = request.form['proxima']
+            print('autenticar: ' + str(proxima_pagina))
+            return redirect(proxima_pagina)
     else:
         flash('Usuário ou senha inválidos!')
-        return redirect(url_for('http://127.0.0.1:5000'))
+        return redirect(url_for('login'))
     
 @app.route('/logout')
 def logout():
